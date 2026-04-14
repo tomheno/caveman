@@ -106,12 +106,27 @@ skip hs
 
 ## Wenyan coupling
 
-ants + caveman wenyan-* : both layers in 文言文.
-- Reasoning: 文言 fact-lines (主謂賓 per line, drop 之/乎/也 unless load-bearing).
-- Reply: 文言 caveman sentences at wenyan-full or wenyan-ultra register.
-- Same language both layers — no mid-response language switch.
+ants + caveman wenyan-* is a **density hack for non-Chinese users**: reasoning uses 文言文 for token density, reply switches back to English caveman so the user can always read the answer.
 
-### "為何組件頻繪？" (wenyan + ants full + caveman wenyan-full)
+- Reasoning: 文言 fact-lines (主謂賓 per line, drop 之/乎/也 unless load-bearing).
+- **Reply: English caveman, punct-light.** Always readable to the user — the reply is the deliverable, it must not be gated on classical-Chinese literacy.
+  - no commas inside sentences
+  - no semicolons, no em-dashes
+  - full stops only between independent claims
+  - fragments preferred
+
+Rule: **final user-facing reply is always in a language the user reads.** If the user speaks Chinese, the whole stack (reasoning + reply) can stay 文言. Otherwise, reply reverts to English caveman regardless of caveman-level.
+
+### "為何組件頻繪？" (wenyan + ants full, user reads English)
+```
+物出新參照
+memo察異
+解 useMemo包
+
+New obj ref each render. Memo sees diff → re-render. Wrap useMemo.
+```
+
+### Same question, user reads Chinese (both layers 文言)
 ```
 物出新參照
 memo察異
@@ -119,8 +134,6 @@ memo察異
 
 物出新參照致重繪。useMemo Wrap之。
 ```
-
-Alternative for mixed-language users: `/caveman full` + `/ants full` keeps everything English.
 
 ## Persistence
 
