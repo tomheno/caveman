@@ -9,7 +9,7 @@
 const fs = require('fs');
 const path = require('path');
 const os = require('os');
-const { getDefaultMode } = require('./caveman-config');
+const { getDefaultMode, getAntsDefault } = require('./caveman-config');
 
 const claudeDir = path.join(os.homedir(), '.claude');
 const flagPath = path.join(claudeDir, '.caveman-active');
@@ -115,9 +115,19 @@ if (skillContent) {
     'Code/commits/PRs: write normal. "stop caveman" or "normal mode": revert. Level persist until changed or session end.';
 }
 
-// 2b. Ants reasoning-overlay — append if ~/.claude/.ants-active exists
+// 2b. Ants reasoning-overlay — append if ~/.claude/.ants-active exists.
+// Auto-init from antsDefault config if flag absent.
 try {
   const antsFlagPath = path.join(claudeDir, '.ants-active');
+  if (!fs.existsSync(antsFlagPath)) {
+    const antsDefault = getAntsDefault();
+    if (antsDefault && antsDefault !== 'off') {
+      try {
+        fs.mkdirSync(path.dirname(antsFlagPath), { recursive: true });
+        fs.writeFileSync(antsFlagPath, antsDefault);
+      } catch (e) {}
+    }
+  }
   if (fs.existsSync(antsFlagPath)) {
     const antsLevel = (fs.readFileSync(antsFlagPath, 'utf8').trim() || 'full').toLowerCase();
     let antsSkill = '';

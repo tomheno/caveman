@@ -59,4 +59,24 @@ function getDefaultMode() {
   return 'full';
 }
 
-module.exports = { getDefaultMode, getConfigDir, getConfigPath, VALID_MODES };
+const ANTS_LEVELS = new Set(['lite', 'full', 'ultra']);
+
+function getAntsDefault() {
+  // 1. Env var
+  const envAnts = process.env.ANTS_DEFAULT;
+  if (envAnts && (ANTS_LEVELS.has(envAnts.toLowerCase()) || envAnts.toLowerCase() === 'off')) {
+    return envAnts.toLowerCase();
+  }
+  // 2. Config file antsDefault field
+  try {
+    const config = JSON.parse(fs.readFileSync(getConfigPath(), 'utf8'));
+    if (config.antsDefault) {
+      const v = String(config.antsDefault).toLowerCase();
+      if (ANTS_LEVELS.has(v) || v === 'off') return v;
+    }
+  } catch (e) { /* no file or invalid */ }
+  // 3. Default: off (no overlay unless user opts in)
+  return 'off';
+}
+
+module.exports = { getDefaultMode, getAntsDefault, getConfigDir, getConfigPath, VALID_MODES, ANTS_LEVELS };
