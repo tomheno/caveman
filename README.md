@@ -319,6 +319,27 @@ Level stick until you change it or session end.
 | **caveman-commit** | Terse commit messages. Conventional Commits. ≤50 char subject. Why over what. | `/caveman-commit` |
 | **caveman-review** | One-line PR comments: `L42: 🔴 bug: user null. Add guard.` No throat-clearing. | `/caveman-review` |
 | **caveman-help** | Quick-reference card. All modes, skills, commands, one command away. | `/caveman-help` |
+| **ants** | Reasoning overlay. Model thinks in bullets/grids (1 fact/line, no prose), reply stays caveman. Stacks with caveman; switch `/ants lite/full/ultra`. | `/ants` |
+
+### ants overlay
+
+Caveman compress sentences. Ants eliminate them — for thinking. Reasoning becomes bullets or compact grids, one fact per line; reply stays caveman. Great for monitoring multiple jobs, diagnostic scans, and any "why" question where enumerating candidates is clearer than a paragraph.
+
+```
+/ants           # overlay on, level full
+/ants ultra     # 3-col grids, 3 tokens/cell
+/ants off       # overlay off, caveman stays
+```
+
+**Wenyan + ants stacks specially**: reasoning bullets render in 文言文, reply switches to English caveman with aggressive punctuation reduction (no commas inside sentences, fragments preferred).
+
+Example (`/caveman full` + `/ants full`, "Why GPU 2 idle?"):
+```
+- gpu2 0% util
+- pgrep → 0 pid
+- cause: crash
+Training dead. Relaunch --resume auto.
+```
 
 ### caveman-compress
 

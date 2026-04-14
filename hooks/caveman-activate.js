@@ -115,6 +115,30 @@ if (skillContent) {
     'Code/commits/PRs: write normal. "stop caveman" or "normal mode": revert. Level persist until changed or session end.';
 }
 
+// 2b. Ants reasoning-overlay — append if ~/.claude/.ants-active exists
+try {
+  const antsFlagPath = path.join(claudeDir, '.ants-active');
+  if (fs.existsSync(antsFlagPath)) {
+    const antsLevel = (fs.readFileSync(antsFlagPath, 'utf8').trim() || 'full').toLowerCase();
+    let antsSkill = '';
+    try {
+      antsSkill = fs.readFileSync(
+        path.join(__dirname, '..', 'skills', 'ants', 'SKILL.md'), 'utf8'
+      );
+    } catch (e) {}
+    if (antsSkill) {
+      const body = antsSkill.replace(/^---[\s\S]*?---\s*/, '');
+      output += '\n\n---\n\nANTS REASONING OVERLAY — level: ' + antsLevel + '\n\n' + body;
+    } else {
+      // Fallback minimum ants rules
+      output += '\n\n---\n\nANTS REASONING OVERLAY — level: ' + antsLevel + '\n\n' +
+        'Reason in bullets/grids, one fact per line, no prose. Reply in caveman. ' +
+        'Bullet marker `- ` only. Drop articles, verbs when unnecessary, trailing punctuation. ' +
+        'Arrows `→` for causality. Wenyan + ants: reasoning in 文言文 bullets, reply in English caveman with minimal punctuation.';
+    }
+  }
+} catch (e) {}
+
 // 3. Detect missing statusline config — nudge Claude to help set it up
 try {
   let hasStatusline = false;
