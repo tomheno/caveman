@@ -106,21 +106,21 @@ skip hs
 
 ## Wenyan coupling
 
-ants + caveman wenyan-* : reasoning in 文言文 fact-lines (one 主謂賓 per line, no 之/乎/也 unless load-bearing). Reply in **English caveman** with aggressive punctuation reduction:
+ants + caveman wenyan-* : both layers in 文言文.
+- Reasoning: 文言 fact-lines (主謂賓 per line, drop 之/乎/也 unless load-bearing).
+- Reply: 文言 caveman sentences at wenyan-full or wenyan-ultra register.
+- Same language both layers — no mid-response language switch.
 
-- no commas inside sentences
-- no semicolons no em-dashes
-- full stops only between independent claims
-- fragments preferred
-
-### "為何組件頻繪？" (wenyan + ants full + caveman full)
+### "為何組件頻繪？" (wenyan + ants full + caveman wenyan-full)
 ```
 物出新參照
 memo察異
 解 useMemo包
 
-New obj ref each render. Memo sees diff → re-render. Wrap useMemo.
+物出新參照致重繪。useMemo Wrap之。
 ```
+
+Alternative for mixed-language users: `/caveman full` + `/ants full` keeps everything English.
 
 ## Persistence
 
